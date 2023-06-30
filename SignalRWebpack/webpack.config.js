@@ -4,7 +4,10 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
-    entry: "./src/index.ts",
+    entry: {
+        login: "./src/login.ts",
+        chat: "./src/chat.ts",
+    },
     output: {
         path: path.resolve(__dirname, "wwwroot"),
         filename: "[name].[chunkhash].js",
@@ -28,7 +31,14 @@ module.exports = {
     plugins: [
         new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
-            template: "./src/index.html",
+            template: "./src/login.html",
+            chunks: ['login'],
+            filename: "login.html"
+        }),
+        new HtmlWebpackPlugin({
+            template: "./src/chat.html",
+            chunks: ['chat'],
+            filename: "chat.html"
         }),
         new MiniCssExtractPlugin({
             filename: "css/[name].[chunkhash].css",
