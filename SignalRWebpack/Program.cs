@@ -22,6 +22,8 @@ app.UseStaticFiles();
 app.MapHub<ChatHub>("/hub");
 // </snippet_MapHub>
 
+var chatId = 1111111;
+
 // Map "/login" to login.html
 app.MapGet("/", async context =>
 {
@@ -31,8 +33,17 @@ app.MapGet("/", async context =>
 
 app.MapGet("/chat/{chatId}", async context =>
 {
-    context.Response.ContentType = "text/html";
-    await context.Response.SendFileAsync(Path.Combine(env.WebRootPath, "chat.html"));
+    var chatIdparameter = context.Request.RouteValues["chatId"] as string;
+    int chatIdparameterInt;
+    if (int.TryParse(chatIdparameter, out chatIdparameterInt) && chatIdparameterInt == chatId)
+    {
+        context.Response.ContentType = "text/html";
+        await context.Response.SendFileAsync(Path.Combine(env.WebRootPath, "chat.html"));
+    } else
+    {
+        context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+    }
+    
 });
 
 
@@ -44,7 +55,6 @@ app.MapPost("/check-login", async (HttpContext context) =>
 
     if (data != null && data.ContainsKey("username") && data["username"] == "YES")
     {
-        var chatId = 1111111; // for testing only
 
         context.Response.Redirect($"/chat/{chatId}");
     }
