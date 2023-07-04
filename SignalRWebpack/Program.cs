@@ -1,68 +1,55 @@
-// <snippet_HubsNamespace>
 using SignalRWebpack.Hubs;
 using System.Text.Json;
 using System.Text;
-// </snippet_HubsNamespace>
+using Auth0.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using SignalRWebpack.Support;
+using System.Net;
 
-// <snippet_AddSignalR>
+// ***** Initialize Web App *****
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddSignalR();
-// </snippet_AddSignalR>
+// ***** Configure for OAuth *****
 
-// <snippet_FilesMiddleware>
+builder.Services.ConfigureSameSiteNoneCookies(); // for http support
+builder.Services.Configure<CookiePolicyOptions>(options =>
+{
+    options.MinimumSameSitePolicy = SameSiteMode.None;
+});
+
+builder.Services.AddAuth0WebAppAuthentication(options =>
+{
+    options.Domain = builder.Configuration["Auth0:Domain"] ?? "";
+    options.ClientId = builder.Configuration["Auth0:ClientId"] ?? "";
+});
+
+// ***** Configure SignalR and Controllers *****
+builder.Services.AddControllersWithViews();
+builder.Services.AddSignalR();
+
+// ***** Build + Middleware *****
 var app = builder.Build();
 var env = app.Environment;
-
 app.UseDefaultFiles();
 app.UseStaticFiles();
-// </snippet_FilesMiddleware>
+app.UseCookiePolicy();
+app.UseRouting();
+app.UseAuthentication();
+app.UseAuthorization();
 
-// <snippet_MapHub>
+// ***** Configure Controllers (Using Traditional MVC) *****
+#pragma warning disable ASP0014
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapDefaultControllerRoute();
+});
+#pragma warning restore ASP0014
+
+// ***** SignalR *****
 app.MapHub<ChatHub>("/hub");
-// </snippet_MapHub>
-
-var chatId = 1111111;
-
-// Map "/login" to login.html
-app.MapGet("/", async context =>
-{
-    context.Response.ContentType = "text/html";
-    await context.Response.SendFileAsync(Path.Combine(env.WebRootPath, "login.html"));
-});
-
-app.MapGet("/chat/{chatId}", async context =>
-{
-    var chatIdparameter = context.Request.RouteValues["chatId"] as string;
-    int chatIdparameterInt;
-    if (int.TryParse(chatIdparameter, out chatIdparameterInt) && chatIdparameterInt == chatId)
-    {
-        context.Response.ContentType = "text/html";
-        await context.Response.SendFileAsync(Path.Combine(env.WebRootPath, "chat.html"));
-    } else
-    {
-        context.Response.StatusCode = StatusCodes.Status401Unauthorized;
-    }
-    
-});
-
-
-app.MapPost("/check-login", async (HttpContext context) =>
-{
-    using var reader = new StreamReader(context.Request.Body, Encoding.UTF8);
-    var body = await reader.ReadToEndAsync();
-    var data = JsonSerializer.Deserialize<Dictionary<string, string>>(body);
-
-    if (data != null && data.ContainsKey("username") && data["username"] == "YES")
-    {
-
-        context.Response.Redirect($"/chat/{chatId}");
-    }
-    else
-    {
-        context.Response.StatusCode = StatusCodes.Status401Unauthorized;
-    }
-});
-
 
 app.Run();
