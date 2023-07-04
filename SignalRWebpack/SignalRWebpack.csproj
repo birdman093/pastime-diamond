@@ -27,4 +27,8 @@
     <None Remove="Support\" />
     <None Remove="Controllers\" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="src\login.ts" />
+    <None Include="src\chat.ts" />
+  </ItemGroup>
 </Project>
