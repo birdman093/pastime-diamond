@@ -1,5 +1,5 @@
 # pastime-diamond
-SignalR application for users to play games, chats, create teams, and store data
+SignalR application for users to play games, and chat
 
 ## technology description
 
@@ -7,7 +7,7 @@ SignalR application for users to play games, chats, create teams, and store data
 ASP.NET<br>
 SignalR<br>
 .NET 7.0<br>
-React<br>
+Razor Pages<br>
 Typescript<br>
 Javascript<br>
 Python<br>
