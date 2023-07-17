@@ -5,12 +5,12 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
     entry: {
-        login: "./src/login.ts",
-        chat: "./src/chat.ts",
+        login: "./src/ts/login.ts",
+        chat: "./src/ts/chat.ts",
     },
     output: {
         path: path.resolve(__dirname, "wwwroot"),
-        filename: "[name].[chunkhash].js",
+        filename: "[name].js",
         publicPath: "/",
     },
     resolve: {
@@ -30,6 +30,7 @@ module.exports = {
     },
     plugins: [
         new CleanWebpackPlugin(),
+        /* Needed for non-razor html pages
         new HtmlWebpackPlugin({
             template: "./src/login.html",
             chunks: ['login'],
@@ -40,6 +41,7 @@ module.exports = {
             chunks: ['chat'],
             filename: "chat.html"
         }),
+        */
         new MiniCssExtractPlugin({
             filename: "css/[name].[chunkhash].css",
         }),

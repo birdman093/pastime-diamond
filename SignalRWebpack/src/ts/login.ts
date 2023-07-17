@@ -1,4 +1,7 @@
+import "../css/main.css";
 document.addEventListener('DOMContentLoaded', function () {
+
+    // Group Login 
     document.getElementById('loginForm').addEventListener('submit', function (event) {
         event.preventDefault();
 
@@ -27,7 +30,23 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             })
             .catch(error => {
-                alert(error.message);  // show an alert if the login failed
+                alert("Group: " + error.message);  // show an alert if the login failed
             });
+    });
+
+    // OAuth Login using Cookie Storage
+    document.getElementById('userLogin').addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        window.location.href = '/account';
+        
+    });
+
+    // OAuth Logout using Cookie Storage
+    document.getElementById('userLogout').addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        window.location.href = '/logout';
+
     });
 });

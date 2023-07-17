@@ -21,14 +21,29 @@
     <Folder Include="src\css\" />
     <Folder Include="Support\" />
     <Folder Include="Controllers\" />
+    <Folder Include="Views\" />
+    <Folder Include="Views\Shared\" />
+    <Folder Include="Views\Account\" />
+    <Folder Include="Views\Chat\" />
+    <Folder Include="src\ts\" />
+    <Folder Include="Models\" />
   </ItemGroup>
 
   <ItemGroup>
     <None Remove="Support\" />
     <None Remove="Controllers\" />
+    <None Remove="Views\" />
+    <None Remove="Views\Shared\" />
+    <None Remove="Views\Account\" />
+    <None Remove="Views\Chat\" />
+    <None Remove="src\ts\" />
+    <None Remove="Models\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="src\login.ts" />
-    <None Include="src\chat.ts" />
+    <None Include="src\ts\chat.ts" />
+    <None Include="src\ts\login.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="wwwroot\login.c65e6ee8c2c7fa8b4a36.js" />
   </ItemGroup>
 </Project>

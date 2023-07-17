@@ -13,7 +13,7 @@ using System.Net;
 // ***** Initialize Web App *****
 var builder = WebApplication.CreateBuilder(args);
 
-// ***** Configure for OAuth *****
+// ***** Configure for OAuth -- return access token*****
 
 builder.Services.ConfigureSameSiteNoneCookies(); // for http support
 builder.Services.Configure<CookiePolicyOptions>(options =>
@@ -25,7 +25,12 @@ builder.Services.AddAuth0WebAppAuthentication(options =>
 {
     options.Domain = builder.Configuration["Auth0:Domain"] ?? "";
     options.ClientId = builder.Configuration["Auth0:ClientId"] ?? "";
-});
+    options.ClientSecret = builder.Configuration["Auth0:ClientSecret"] ?? "";
+})
+.WithAccessToken(options =>
+ {
+     options.Audience = builder.Configuration["Auth0:Audience"];
+ });
 
 // ***** Configure SignalR and Controllers *****
 builder.Services.AddControllersWithViews();

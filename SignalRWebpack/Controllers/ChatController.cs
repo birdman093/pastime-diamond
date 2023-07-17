@@ -1,9 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Net.Mail;
+using System.Security.Claims;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System.Xml.Linq;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -20,13 +26,6 @@ namespace SignalRWebpack.Controllers
             _env = env;
         }
 
-        [HttpGet("")]
-        public async Task Login()
-        {
-            Response.ContentType = "text/html";
-            await Response.SendFileAsync(Path.Combine(_env.WebRootPath, "login.html"));
-        }
-
         [HttpGet("chat/{chatId:int}")]
         public async Task Chat(int chatId)
         {
@@ -41,22 +40,7 @@ namespace SignalRWebpack.Controllers
             }
         }
 
-        [HttpPost("check-login")]
-        public async Task CheckLogin()
-        {
-            using var reader = new StreamReader(Request.Body, Encoding.UTF8);
-            var body = await reader.ReadToEndAsync();
-            var data = JsonSerializer.Deserialize<Dictionary<string, string>>(body);
-
-            if (data != null && data.ContainsKey("username") && data["username"] == "YES")
-            {
-                Response.Redirect($"/chat/{chatId}");
-            }
-            else
-            {
-                Response.StatusCode = StatusCodes.Status401Unauthorized;
-            }
-        }
+        
     }
 }
 

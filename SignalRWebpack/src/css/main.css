@@ -34,3 +34,9 @@ body {
   overflow-y: auto;
   padding: 5px;
 }
+
+.readonly-input {
+    background-color: #e0e0e0;
+    border: 1px solid #ccc;
+    color: #333;
+}
