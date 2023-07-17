@@ -47,6 +47,12 @@ namespace SignalRWebpack.Controllers
             return View("login");
         }
 
+        [HttpGet("/callback")]
+        public void Callback()
+        {
+            Response.Redirect($"/");
+        }
+
         [HttpGet("/error")]
         public IActionResult Error()
         {
@@ -77,7 +83,7 @@ namespace SignalRWebpack.Controllers
         {
             var authenticationProperties = new LoginAuthenticationPropertiesBuilder()
                 .WithRedirectUri(returnUrl)
-                .WithAudience("https://localhost:7178")
+                //.WithAudience("https://localhost:7178")
                 .Build();
 
             await HttpContext.ChallengeAsync(Auth0Constants.AuthenticationScheme, authenticationProperties);
