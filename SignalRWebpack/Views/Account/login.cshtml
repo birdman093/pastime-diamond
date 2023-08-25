@@ -1,0 +1,28 @@
+﻿@model string 
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+    <script src="~/login.js"></script>
+    <link rel="stylesheet" type="text/css" href="~/css/login.css">
+</head>
+<body>
+    <form id="userLogin">
+        <input type="submit" value="User Login">
+    </form>
+    <form id="userLogout">
+        <input type="submit" value="User Logout">
+    </form>
+    <form id="loginForm">
+        <label for="username">Username:</label><br>
+        <input type="text" id="username" name="username" class="readonly-input" readonly value="@Model"><br>
+        <label for="groupID">Group ID:</label><br>
+        <input type="text" id="groupID" name="groupID"><br>
+        <label for="groupPassword">Group Password:</label><br>
+        <input type="password" id="groupPassword" name="groupPassword"><br>
+        <input type="submit" value="Group Login">
+    </form>
+</body>
+</html>
+

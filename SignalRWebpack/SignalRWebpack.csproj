@@ -1,0 +1,49 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>a1995120-18ca-417e-af23-c18193413c72</UserSecretsId>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(RunConfiguration)' == 'https' " />
+  <PropertyGroup Condition=" '$(RunConfiguration)' == 'http' " />
+  <ItemGroup>
+    <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="5.1.5">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Auth0.AspNetCore.Authentication" Version="1.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="src\css\" />
+    <Folder Include="Support\" />
+    <Folder Include="Controllers\" />
+    <Folder Include="Views\" />
+    <Folder Include="Views\Shared\" />
+    <Folder Include="Views\Account\" />
+    <Folder Include="Views\Chat\" />
+    <Folder Include="src\ts\" />
+    <Folder Include="Models\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Support\" />
+    <None Remove="Controllers\" />
+    <None Remove="Views\" />
+    <None Remove="Views\Shared\" />
+    <None Remove="Views\Account\" />
+    <None Remove="Views\Chat\" />
+    <None Remove="src\ts\" />
+    <None Remove="Models\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\ts\chat.ts" />
+    <None Include="src\ts\login.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="wwwroot\login.c65e6ee8c2c7fa8b4a36.js" />
+  </ItemGroup>
+</Project>
